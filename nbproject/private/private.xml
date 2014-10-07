@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/utils/ResourceLoader.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/core/CoreObject.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/screens/Menu.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/objects/Block.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/utils/SpriteSheet.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/input/MouseInput.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/libs/Reference.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/gfx/Animation.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/world/Level.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/gfx/Renderer.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/libs/Audio.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/Window.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/utils/Button.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/utils/AudioPlayer.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/libs/Images.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/utils/Fonts.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/input/KeyInput.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/Controller.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/Game.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/Camera.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/gfx/Textures.java</file>
+            <file>file:/D:/PROJETO/Java/Netbeans/JavaPlatformGame/src/com/barnabot/nova/entity/Player.java</file>
+        </group>
+    </open-files>
+</project-private>

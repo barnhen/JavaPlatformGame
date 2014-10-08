@@ -5,209 +5,148 @@
  * Unless (of course) you are Enzo Henrique Barnabe.
  * Enjoy.
  */
-
 package com.barnabot.nova.entity;
 
-import com.barnabot.nova.Game;
-import com.barnabot.nova.core.CoreObject;
-import com.barnabot.nova.enums.Direction;
 import com.barnabot.nova.gfx.Animation;
-import com.barnabot.nova.gfx.Textures;
-import com.barnabot.nova.objects.Block;
-import java.awt.Graphics;
-import java.util.ArrayList;
+import com.barnabot.nova.gfx.textures.Sprite;
+import com.barnabot.nova.gfx.textures.SpriteSheet;
+import com.barnabot.nova.input.KeyInput;
+import com.barnabot.nova.entity.mobs.Mob;
+import com.barnabot.nova.world.Block;
+import com.barnabot.nova.world.World;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import com.barnabot.nova.libs.Reference;
+import com.barnabot.nova.utils.AudioPlayer;
+
 
 /**
  *
  * @author Henrique Barnabe <barnabot.com>
  */
-public class Player extends CoreObject
+public class Player extends Mob
 {
 
-    private static ArrayList<CoreObject> gameObjects = Game.getInstance().getController().getObjects();
-    
-    private float gravity = 0.55f; // (old 0.98f)gravity is 9.98
-    private boolean falling = true;
-    private boolean jumping = false;
-    private boolean moving = false;
+    private static SpriteSheet sheet = new SpriteSheet("player.png");
 
-    
-    private Animation animeRight;
-    private Animation animeLeft;
-    
-    private Direction direction = Direction.RIGHT;
-
-       
-     /**
-    * Creates a new player
-    * @param x the far left x coordinate
-    * @param y the upper y coordinate
-    * @param id the ID of the player
-    * @param tex the <code>Texture</code> object
-    */
-    public Player(float x, float y, int id, Textures tex)
+    public Player(int x, int y, World world)
     {
-        super(x, y, id, tex);
-        this.setSize(32, 70); //old height 70
-        animeRight = new Animation(3, tex.playerRight);
-        animeLeft = new Animation(3, tex.playerLeft);
+        super(x, y, world);
+        sprite = new Sprite(2, 1, 50, sheet);
+        sprite2 = new Sprite(1, 1, 50, sheet);
+        Sprite[] rights = new Sprite[]
+        {
+            new Sprite(1, 2, 50, sheet),
+            new Sprite(2, 2, 50, sheet),
+            new Sprite(3, 2, 50, sheet),
+            new Sprite(4, 2, 50, sheet),
+            new Sprite(5, 2, 50, sheet),
+            new Sprite(1, 3, 50, sheet),
+            new Sprite(2, 3, 50, sheet),
+            new Sprite(3, 3, 50, sheet)
+        };
+        Sprite[] lefts = new Sprite[]
+        {
+            new Sprite(1, 4, 50, sheet),
+            new Sprite(2, 4, 50, sheet),
+            new Sprite(3, 4, 50, sheet),
+            new Sprite(4, 4, 50, sheet),
+            new Sprite(5, 4, 50, sheet),
+            new Sprite(1, 5, 50, sheet),
+            new Sprite(2, 5, 50, sheet),
+            new Sprite(3, 5, 50, sheet)
+        };
+        animeLeft = new Animation(5, lefts);
+        animeRight = new Animation(5, rights);
     }
 
     @Override
-    /**
-    * Runs the logic and updates the values of the player
-    */
     public void tick()
     {
-        x += velX;
-        y += velY;
-        fall();
-        checkCollision();
-        if (moving)
+        velX = 0;
+        if (KeyInput.getKey(KeyEvent.VK_D))
         {
-            if (direction == Direction.RIGHT)
-            {
-                animeRight.runAnimation();
-            }
-            else if (direction == Direction.LEFT)
-            {
-                animeLeft.runAnimation();
-            }
-            
+            velX += 3;
         }
-        
+        if (KeyInput.getKey(KeyEvent.VK_A))
+        {
+            velX -= 3;
+        }
+        if (KeyInput.getKey(KeyEvent.VK_W) && !jumping)
+        {
+            jumping = true;
+            velY = -10;
+        }
+        super.tick();
     }
 
     @Override
-    /**
-    * draws the player onto the screen
-    * @param g the graphics context
-    */
-    public void render(Graphics g)
-    {
-//        g.drawImage(tex.blockStone, x, y, null);
-        
-//        g.setColor(Color.WHITE);
-//        g.fillRect((int)x, (int)y, width, height);
-        if (!moving)
+    protected boolean hasVerticalCollision()
+    { //because our collision methods are now seperated, we have pixel perfect collision
+        for (int i = 0; i < world.getBlocks().size(); i++)
         {
-            if (direction == Direction.RIGHT)
+            Block block = world.getBlocks().get(i);
+//if velY > 0 that means we are trying to jump, so it should let us
+            if (getBottom().intersects(block.getTop()) && velY > 0)
             {
-                g.drawImage(tex.playerStandingRight, (int)x, (int)y, null);
+                jumping = false; //when we are on the ground, we need to re-allow the player to jump
+                return true;
             }
-            else if (direction == Direction.LEFT)
+//if we are jumping and hit the ceiling
+            if (getTop().intersects(block.getBottom()) && velY < 0)
             {
-                g.drawImage(tex.playerStandingLeft, (int)x, (int)y, null);
-            }
-            
-        }
-        else
-        {
-            if (direction == Direction.RIGHT)
-            {
-                animeRight.drawAnimation(g, x, y);
-            }
-            else if (direction == Direction.LEFT)
-            {
-                animeLeft.drawAnimation(g, x, y);
-            }
-            
-        }
-        super.render(g);
-    }
-    
-    /**
-    * Helper method to check for collision with blocks and such
-    */
-    public void checkCollision()
-    {
-        for(CoreObject obj : gameObjects)
-        {
-            if(obj instanceof Block)
-            {                
-                if(getBottomBounds().intersects(obj.getTopBounds()))
-                {
-                    velY = 0; //stop trying to fall
-                    y = obj.getY() - height; //sets our y to the top of the block
-                    //then the block hit the ground
-                    jumping = false;  // we can jump again              
-                    falling = false;
-                }
-                else
-                {
-                    falling = true;
-                }
-                if(getTopBounds().intersects(obj.getBottomBounds())) //collision between top of player and bottom of block
-                {
-                    fall(); //hang for a split second, then fall (velY = -velY for an immediate fall)
-//                    y = obj.getY() + obj.getHeight( ); //we need to stop being inside the block so we can fall
-                    y = obj.getY() + obj.getHeight( ) +1; //we need to stop being inside the block so we can fall
-                }
-                
-                if (getRightBounds().intersects(obj.getLeftBounds()))
-                {
-                    velX = 0;
-                    x = obj.getX() - width;
-                
-                }
-                
-                if (getLeftBounds().intersects(obj.getRightBounds()))
-                {
-                    velX = 0;
-                    x = obj.getX() + obj.getWidth();
-                
-                }
+                velY = 0;
+                return true;
             }
         }
-    
-    }
-    
-    public void fall()
-    {
-    /*
-     * gravity is acceleration due to a magnetic pull (gravitational pull)
-     * Earth's gravity is 9.8 m/s^2, but its still a form of acceleration, which is the change in VELOCITY over time
-     * that is why add the gravity to the velocity of y, rather than y itself, this also makes it gradually fall faster
-     */
-        if (falling)
-        {
-            velY += gravity;
-        }
-    }
-    
-    
-    public boolean isJumping()
-    {
-        return jumping;
+        return false;
     }
 
-    public void setJumping(boolean jumping)
+    @Override
+    protected boolean hasHorizontalCollision()
     {
-        this.jumping = jumping;
-    }
-    
-    public boolean isMoving()
-    {
-        return moving;
+        for (int i = 0; i < world.getBlocks().size(); i++)
+        {
+            Block block = world.getBlocks().get(i);
+            if (getRight().intersects(block.getRight()) && velX > 0)
+            {
+                return true;
+            }
+            if (getLeft().intersects(block.getLeft()) && velX < 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
-    /**
-     * @param moving: is the playerStandingRight moving?
-    */
-    public void setMoving(boolean moving)
+    @Override
+    public Rectangle getTop()
     {
-        this.moving = moving;
+        return new Rectangle(x + 16, y + 4, 12, 4);
     }
-    
-    public void setDirection (Direction direction)
+
+    @Override
+    public Rectangle getBottom()
     {
-        this.direction = direction;
+        return new Rectangle(x + 13, y + 50, 23, 4);
     }
-    
-    public Direction getDirection()
+
+    @Override
+    public Rectangle getRight()
     {
-        return direction;
+        return new Rectangle(x + 41, y + 8, 4, 40);
     }
-  
-    
+
+    @Override
+    public Rectangle getLeft()
+    {
+        return new Rectangle(x + 10, y + 8, 4, 40);
+    }
+
+    @Override
+    public Rectangle getBounds()
+    {
+        return new Rectangle(x, y, 50, 50);
+    }
 }

@@ -5,11 +5,10 @@
  * Unless (of course) you are Enzo Henrique Barnabe.
  * Enjoy.
  */
-
 package com.barnabot.nova.gfx;
 
+import com.barnabot.nova.gfx.textures.Sprite;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 /**
  *
@@ -17,22 +16,43 @@ import java.awt.image.BufferedImage;
  */
 public class Animation
 {
-    
+
+    /**
+     * Used to make sure nextFrame() does not excede frames
+     */
     private int count = 0;
+    /**
+     * Used to make sure runAnimation() does not excede speed
+     */
     private int index = 0;
+    /**
+     * determines how fast the frames will animate
+     */
     private int speed;
+    /**
+     * the number of images/steps in the animation
+     */
     private int frames;
-    
-    private BufferedImage currentImage;
-    private BufferedImage anime[];
-    
-    public Animation(int speed, BufferedImage anime[])
+    private Sprite currentSprite;
+    private Sprite[] sprites;
+
+    /**
+     * Constructs a new animation set
+     *
+     * @param speed the speed of the animation
+     * @param sprites the array of images
+     */
+    public Animation(int speed, Sprite... sprites)
     {
         this.speed = speed;
-        this.anime = anime;
-        this.frames = anime.length;
+        this.sprites = sprites;
+        frames = sprites.length;
     }
-    
+
+    /**
+     * Runs the animation and updates the frames Called in the tick method of
+     * the object being animated
+     */
     public void runAnimation()
     {
         index++;
@@ -42,16 +62,18 @@ public class Animation
             nextFrame();
         }
     }
-    
-    public void nextFrame()
+
+    /**
+     * Moves the animation on to the next frame Used in the runAnimation method
+     */
+    private void nextFrame()
     {
         for (int k = 0; k < frames; k++)
         {
             if (count == k)
             {
-                currentImage= anime[k];
-            }         
-            
+                currentSprite = sprites[k];
+            }
         }
         count++;
         if (count > frames)
@@ -59,9 +81,21 @@ public class Animation
             count = 0;
         }
     }
-    
-    public void drawAnimation(Graphics g, float x, float y)
+
+    /**
+     * Draws the current image or frame in the animation set Used in the render
+     * method of the object being animated
+     *
+     * @param g the Graphics context
+     * @param x the x coordinate of the object
+     * @param y the y coordinate of the object
+     */
+    public void drawAnimation(Graphics g, int x, int y)
     {
-        g.drawImage(currentImage ,(int)x ,(int)y ,null);
+        if (currentSprite != null)
+        {
+            currentSprite.render(g, x, y);
+        }
     }
+
 }

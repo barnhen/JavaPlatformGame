@@ -24,29 +24,21 @@ public class Window
 {
     private static JFrame frame;
     
-    public static void initWindow(String title)
+   
+    public static void createWindow(Game game, String title)
     {
         frame = new JFrame(title);
-    
-    }
-    
-    public static void addGame(Game game)
-    {
-        frame.add(game);
-    }
-       
-    public static void createWindow()
-    {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Image icon = toolkit.getImage(Reference.RESOURCE_LOCATION + "icon.png");
         Image cursor = toolkit.getImage(Reference.RESOURCE_LOCATION + "cursor.gif");
+        frame.add(game);
         frame.setIconImage(icon);
         frame.setCursor(toolkit.createCustomCursor(cursor, new Point(frame.getX(),frame.getY()), "cursor"));
         frame.setSize(Game.WIDTH,Game.HEIGHT);
         frame.addWindowListener(
                 new WindowAdapter()
                 {
-                    public void WindowClosing(WindowEvent e)
+                    public void windowClosing(WindowEvent e)
                     {
                         Game.exit();
                     }

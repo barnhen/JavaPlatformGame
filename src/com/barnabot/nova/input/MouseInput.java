@@ -8,12 +8,6 @@
 
 package com.barnabot.nova.input;
 
-import com.barnabot.nova.Game;
-import com.barnabot.nova.enums.GameState;
-import com.barnabot.nova.libs.Audio;
-import com.barnabot.nova.screens.Menu;
-import com.barnabot.nova.utils.AudioPlayer;
-import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -23,127 +17,37 @@ import java.awt.event.MouseEvent;
  */
 public class MouseInput extends MouseAdapter
 {
+
+    public static final int BUTTON_LEFT = 0x1;
+    public static final int BUTTON_RIGHT = 0x3;
     
-    public static boolean pressed = false;
-    
-    public static int MOUSE_X, MOUSE_Y; 
-    public static Rectangle MOUSE = new Rectangle(1,1,1,1);
-    
-    private Menu menu = Game.getInstance().getMenu();
+    private static boolean[] buttons = new boolean[5];
+    public static int clickX, clickY, hoverX, hoverY, pressX, pressY;
     
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
-        int mouse = e.getButton();
-        Rectangle rect = new Rectangle(e.getX(),e.getY(),1,1);
-//        pressed = true;
-        
-        if(mouse == MouseEvent.BUTTON1)
-        {
-            switch(Game.state)
-            {
-                case GAME:
-                    break;
-                case MENU:
-                    if (rect.intersects(menu.play))
-                    {
-                        AudioPlayer.playSound(Audio.SOUND_LASER);
-                        Game.getInstance().levelOne.loadLevel();
-                        Game.getInstance().initCamera(); //camera and key listener must be added after the player, which currently the player is being added when the level is loaded
-                        Game.getInstance().addKeys();
-                        Game.state = GameState.GAME;
-                    }
-                    else if (rect.intersects(menu.options))
-                    {
-                    
-                        AudioPlayer.playSound(Audio.SOUND_LASER);
-                        Game.state = GameState.OPTIONS;
-                    }
-                    
-                    break;
-                case OPTIONS:
-                    break;
-                case PAUSE:
-                    break;
-                default:
-                    break;
-            }
-        }
+    /**
+    * This method is called whenever a mouse button is clicked
+    */
+    public void mouseClicked(MouseEvent e) {
+        int mouse = e.getButton(); //used to check what button was clicked
+        clickX = e.getX();
+        clickY = e.getY();
+    }
+    @Override
+    /**
+    * This is called while we have a mouse button held down
+    */
+    public void mousePressed(MouseEvent e) {
+        pressX = e.getX();
+        pressY = e.getY();
+        buttons[e.getButton()] = true;
+    }
+    @Override
+    /**
+    * This is called whenever we release the mouse button
+    */
+    public void mouseReleased(MouseEvent e) {
+        buttons[e.getButton()] = false;
     }
 
-    @Override
-    public void mousePressed(MouseEvent e)
-    {
-        pressed = true;
-        MOUSE = new Rectangle(e.getX(),e.getY(),1,1);
-        if(Game.state == GameState.MENU)
-        {
-            if(MOUSE.intersects(menu.quit))
-            {
-                AudioPlayer.playSound(Audio.SOUND_LASER);
-            }
-        }
-    }
-    
-    
-    
-    @Override
-    public void mouseReleased(MouseEvent e)
-    {
-        pressed = false;
-        
-        MOUSE = new Rectangle(e.getX(),e.getY(),1,1);
-        if(Game.state == GameState.MENU)
-        {
-            if(MOUSE.intersects(menu.quit))
-            {
-                Game.exit();
-            }
-        }
-    }
-    
-    @Override
-    public void mouseMoved(MouseEvent e)
-    {
-        MOUSE_X = e.getX();
-        MOUSE_Y = e.getY();
-        MOUSE = new Rectangle(MOUSE_X, MOUSE_Y,1,1);
-        
-        switch (Game.state)
-        {
-            case GAME:
-                break;
-            case MENU:
-                if((MOUSE.intersects(menu.play) || 
-                    MOUSE.intersects(menu.options) ||
-                    MOUSE.intersects(menu.quit)) &&
-                    !AudioPlayer.hasPlayedHover)
-                {
-                    AudioPlayer.playSound(Audio.SOUND_LASER);
-                    AudioPlayer.hasPlayedHover = true;
-                }
-                else if(!(MOUSE.intersects(menu.play) || 
-                        MOUSE.intersects(menu.options) ||
-                        MOUSE.intersects(menu.quit)) &&
-                       AudioPlayer.hasPlayedHover
-                        )
-                {
-                    AudioPlayer.hasPlayedHover = false;
-                }
-                else
-                {
-                
-                }
-                break;
-            case OPTIONS:
-                break;
-            case PAUSE:
-                break;
-            default:
-                break;
-            
-        }
-        
-        
-    }
 }

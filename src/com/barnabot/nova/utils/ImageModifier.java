@@ -35,6 +35,7 @@ public class ImageModifier
      * scale < 1 = shrink<br> scale > 1 = growth
      * @return the scaled image
      */
+    @Deprecated
     public static BufferedImage resizeImage(BufferedImage originalImage, int type, float x, float y, int inititalWidth, int initialHeight, double scale)
     {
         inititalWidth *= scale;

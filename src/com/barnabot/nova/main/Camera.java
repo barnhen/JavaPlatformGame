@@ -6,11 +6,11 @@
  * Enjoy.
  */
 
-package com.barnabot.nova;
+package com.barnabot.nova.main;
 
-import com.barnabot.nova.core.CoreObject;
+
+import com.barnabot.nova.Game;
 import com.barnabot.nova.entity.Player;
-import com.barnabot.nova.libs.Identities;
 
 /**
  *
@@ -18,31 +18,16 @@ import com.barnabot.nova.libs.Identities;
  */
 public class Camera
 {
-    private float x, y;
-    private Player player;
- 
-    public Camera(float x, float y)
-    {
-        this.x = x;
-        this.y = y;
-        
-        for (CoreObject obj : Game.getInstance().getController().getObjects())
-        {
-            if (obj.getId() == Identities.PLAYER)
-            {
-                player = (Player) obj;
-            }
-        }
-    }
-    
+    private float  x = 0, y = 0;
+
     /**
      * <strong>Algorithm</strong> used: Tweaning -> <code>x += (target - value) * constant</code>
     */
-    public void tick()
+    public void tick(Player player)
     {
 //        x = -player.getX() + Game.WIDTH / 2; // set the camera to make the player at the center of screen
 //        x += (( -player.getX() + Game.WIDTH / 2) - x) * 0.0275f;// camera follows with a delay
-        x += (( -player.getX() + Game.WIDTH / 2) - x) * 0.0875f;// camera follows with a delay
+            x += (( -player.getX() + Game.WIDTH / 2) - x) * 0.0875f;// camera follows with a delay
     }
     
     public float getX()

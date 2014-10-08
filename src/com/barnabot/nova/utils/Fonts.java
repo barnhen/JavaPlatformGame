@@ -9,7 +9,6 @@
 package com.barnabot.nova.utils;
 
 import com.barnabot.nova.libs.Reference;
-import com.barnabot.nova.screens.LoadScreen;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
@@ -26,7 +25,6 @@ public class Fonts
     
     public Fonts(String filePath)
     {
-        LoadScreen.setMessage("Loading fonts from " + Reference.FONT_LOCATION);
         Fonts.fontPath = Reference.FONT_LOCATION + filePath;
         registerFont();
     }
@@ -41,10 +39,13 @@ public class Fonts
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            e.printStackTrace(); //this can fail, so lets make sure to print the error so we know that our crash had something to do with our loading of fonts
         }
     }
-    
+    /**
+     * Adds a new font to our list
+     * @param font the new <code> Fonts</code> object
+     */
     public static void addFont(Fonts font)
     {
         fontList.add(font);

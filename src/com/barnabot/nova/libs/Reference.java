@@ -17,6 +17,25 @@ import java.awt.image.BufferedImage;
  */
 public class Reference
 {
+    
+//    static
+//    {
+//        Properties prop = new Properties();
+//        InputStream stream = Reference.class.getClassLoader().getResourceAsStream("version.properties");
+//        try
+//        {
+//            prop.load(stream);
+//            stream.close();
+//        }
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        VERSION = prop.getProperty("version");
+//    }
+
+    
+    
     public static final int CENTER_X = Game.WIDTH /2;
     public static final int CENTER_Y = Game.HEIGHT /2;
     
@@ -27,4 +46,15 @@ public class Reference
     public static final String LOADING_LOCATION = RESOURCE_LOCATION + "loading/";
     
     public static final int ALPHA_RGB = BufferedImage.TYPE_INT_ARGB;
+    
+    /**
+     *k
+     */
+    public static final String VERSION = "1.0.0";
+    
+    /*
+     * AUDIO
+    */
+    public static final String SOUND_LASER = "laser";
+    public static final String MUSIC_MOON = "moon";
 }

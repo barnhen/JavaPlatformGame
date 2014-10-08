@@ -9,7 +9,6 @@
 package com.barnabot.nova.utils;
 
 import com.barnabot.nova.libs.Reference;
-import com.barnabot.nova.screens.LoadScreen;
 import java.util.HashMap;
 import java.util.Map;
 import org.newdawn.slick.Music;
@@ -29,12 +28,11 @@ public class AudioPlayer
     
     public static boolean hasPlayedHover = false;
     
-    public static void addMusic(String key, String path)
+    public static void addSound(String key, String path)
     {
-        LoadScreen.setMessage("Loading musics from " + Reference.SOUND_LOCATION);
         try
         {
-            musicMap.put(key, new Music(Reference.SOUND_LOCATION + path));
+            soundMap.put(key, new Sound(Reference.SOUND_LOCATION + path));
             
         }
         catch (SlickException e)
@@ -44,12 +42,11 @@ public class AudioPlayer
     }
    
     
-    public static void addSound(String key, String path)
+    public static void addMusic(String key, String path)
     {
-        LoadScreen.setMessage("Loading sounds from " + Reference.SOUND_LOCATION);
         try
         {
-            soundMap.put(key, new Sound(Reference.SOUND_LOCATION + path));
+            musicMap.put(key, new Music(Reference.SOUND_LOCATION + path));
             
         }
         catch (SlickException e)
@@ -68,15 +65,17 @@ public class AudioPlayer
         return musicMap.get(key);
     }
     
-    public static void playSound(String key)
-    {
-        soundMap.get(key).play();
-        
+    /**
+     * Plays a sound effect
+     * @param key the key of the sound
+     */
+    public static void playSound(String key){
+        soundMap.get(key).play(1f, 0.4f); //We will later be working with volume when we get into options portion of the tutorial
     }
     
     public static void playMusic(String key)
     {
-        musicMap.get(key).loop(1f,1f);
+        musicMap.get(key).loop(1f,0.2f); //We will later be working with volume when we get into options portion of the tutorial
     }
     
 }

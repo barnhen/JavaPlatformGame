@@ -38,6 +38,13 @@ public class Player extends CoreObject
     private Direction direction = Direction.RIGHT;
 
        
+     /**
+    * Creates a new player
+    * @param x the far left x coordinate
+    * @param y the upper y coordinate
+    * @param id the ID of the player
+    * @param tex the <code>Texture</code> object
+    */
     public Player(float x, float y, int id, Textures tex)
     {
         super(x, y, id, tex);
@@ -47,6 +54,9 @@ public class Player extends CoreObject
     }
 
     @Override
+    /**
+    * Runs the logic and updates the values of the player
+    */
     public void tick()
     {
         x += velX;
@@ -69,6 +79,10 @@ public class Player extends CoreObject
     }
 
     @Override
+    /**
+    * draws the player onto the screen
+    * @param g the graphics context
+    */
     public void render(Graphics g)
     {
 //        g.drawImage(tex.blockStone, x, y, null);
@@ -99,8 +113,12 @@ public class Player extends CoreObject
             }
             
         }
+        super.render(g);
     }
     
+    /**
+    * Helper method to check for collision with blocks and such
+    */
     public void checkCollision()
     {
         for(CoreObject obj : gameObjects)
@@ -109,17 +127,21 @@ public class Player extends CoreObject
             {                
                 if(getBottomBounds().intersects(obj.getTopBounds()))
                 {
-                    velY = 0;
-                    y = obj.getY() - height;
+                    velY = 0; //stop trying to fall
+                    y = obj.getY() - height; //sets our y to the top of the block
                     //then the block hit the ground
-                    jumping = false;
-                
+                    jumping = false;  // we can jump again              
+                    falling = false;
                 }
-                if(getTopBounds().intersects(obj.getBottomBounds()))
+                else
                 {
-                    fall();
-                    y = obj.getY() + obj.getHeight();
-                
+                    falling = true;
+                }
+                if(getTopBounds().intersects(obj.getBottomBounds())) //collision between top of player and bottom of block
+                {
+                    fall(); //hang for a split second, then fall (velY = -velY for an immediate fall)
+//                    y = obj.getY() + obj.getHeight( ); //we need to stop being inside the block so we can fall
+                    y = obj.getY() + obj.getHeight( ) +1; //we need to stop being inside the block so we can fall
                 }
                 
                 if (getRightBounds().intersects(obj.getLeftBounds()))
@@ -142,6 +164,11 @@ public class Player extends CoreObject
     
     public void fall()
     {
+    /*
+     * gravity is acceleration due to a magnetic pull (gravitational pull)
+     * Earth's gravity is 9.8 m/s^2, but its still a form of acceleration, which is the change in VELOCITY over time
+     * that is why add the gravity to the velocity of y, rather than y itself, this also makes it gradually fall faster
+     */
         if (falling)
         {
             velY += gravity;

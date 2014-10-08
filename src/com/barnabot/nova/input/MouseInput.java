@@ -49,6 +49,8 @@ public class MouseInput extends MouseAdapter
                     {
                         AudioPlayer.playSound(Audio.SOUND_LASER);
                         Game.getInstance().levelOne.loadLevel();
+                        Game.getInstance().initCamera(); //camera and key listener must be added after the player, which currently the player is being added when the level is loaded
+                        Game.getInstance().addKeys();
                         Game.state = GameState.GAME;
                     }
                     else if (rect.intersects(menu.options))

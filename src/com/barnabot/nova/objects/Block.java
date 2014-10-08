@@ -37,6 +37,7 @@ public class Block extends CoreObject
     public void render(Graphics g)
     {
         g.drawImage(image, (int)x, (int)y, null);
+        super.render(g);
     }
     
 

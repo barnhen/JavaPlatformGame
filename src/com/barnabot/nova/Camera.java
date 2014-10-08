@@ -41,7 +41,8 @@ public class Camera
     public void tick()
     {
 //        x = -player.getX() + Game.WIDTH / 2; // set the camera to make the player at the center of screen
-        x += (( -player.getX() + Game.WIDTH / 2) - x) * 0.0275f;// camera follows with a delay
+//        x += (( -player.getX() + Game.WIDTH / 2) - x) * 0.0275f;// camera follows with a delay
+        x += (( -player.getX() + Game.WIDTH / 2) - x) * 0.0875f;// camera follows with a delay
     }
     
     public float getX()

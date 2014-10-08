@@ -5,7 +5,6 @@
  * Unless (of course) you are Enzo Henrique Barnabe.
  * Enjoy.
  */
-
 package com.barnabot.nova.input;
 
 import com.barnabot.nova.Game;
@@ -22,53 +21,67 @@ import java.awt.event.KeyEvent;
  */
 public class KeyInput extends KeyAdapter
 {
+
+    /**
+     * We will set this to our actual player, in the constructor
+     * <br>We have this so we can easily access methods such as
+     * <code>setVelX(int)</code> and <code>setVelY(int)</code>
+     */
     private Player player;
-    
-    private boolean[] keyDown = new boolean[2];
-    
+    private boolean[] keyDown = new boolean[2]; //Set this to however many keys you wish to have smooth movement for, for the time being, I am only checking A and D
+//I may add the W for jumping later on
+
+    /**
+     * Used to initialize attributes in the <code>KeyInput</code> class
+     */
     public KeyInput()
     {
-        for(CoreObject obj : Game.getInstance().getController().getObjects())
-        {
-            if(obj.getId() == Identities.PLAYER)
+        for (CoreObject obj : Game.getInstance().getController().getObjects())
+        { //Runs through the entire array list (for each CoreObject in the array list, do this)
+            if (obj.getId() == Identities.PLAYER) //If the objects ID is equal to Identities.PLAYER (1) then do this
             {
-                player = (Player) obj;
+                player = (Player) obj; //Sets our player attribute(above) to the object in our Controller
             }
         }
     }
 
-
-
     @Override
+    /**
+     * This is called when ever we push a button on our keyboard
+     */
     public void keyPressed(KeyEvent e)
     {
         int key = e.getKeyCode();
-        
-        switch(Game.state)
+        switch (Game.state)
         {
             case GAME:
                 if (key == KeyEvent.VK_W && !player.isJumping())
                 {
-                    player.setVelY(-13); // how tall will the player jump
+                    player.setVelY(-13);
                     player.setJumping(true);
-//                    player.setVelY(-5);
                 }
+// player.setVelY(-5); //because coordinates start from bottom down(y values), we need to subtract a value to go up
                 if (key == KeyEvent.VK_A)
                 {
                     player.setVelX(-5);
-                    player.setMoving(true);
-                    player.setDirection(Direction.LEFT);
-                    keyDown[0] = true;
+                    player.setMoving(true); //used to make the player start the animation process
+                    player.setDirection(Direction.LEFT); //makes the player switch to the left facing sprites
+                    keyDown[0] = true; //set the booleans to true!
                 }
                 if (key == KeyEvent.VK_D)
                 {
                     player.setVelX(5);
                     player.setMoving(true);
-                    player.setDirection(Direction.RIGHT);
+                    player.setDirection(Direction.RIGHT); //makes the player switch to the right facing sprites
                     keyDown[1] = true;
                 }
                 break;
             case MENU:
+                if (key == KeyEvent.VK_ESCAPE)
+                {
+                    System.out.println("exiting");
+                    Game.exit();
+                }
                 break;
             case OPTIONS:
                 break;
@@ -76,27 +89,23 @@ public class KeyInput extends KeyAdapter
                 break;
             default:
                 break;
-        
         }
-            
     }
-    
+
     @Override
+    /**
+     * This is called when ever we release a button on our keyboard
+     */
     public void keyReleased(KeyEvent e)
     {
         int key = e.getKeyCode();
-        
-        switch(Game.state)
+        switch (Game.state)
         {
             case GAME:
-                if (key == KeyEvent.VK_W)
-                {
-                    player.setVelY(0);
-                }
                 if (key == KeyEvent.VK_A)
-                {                   
-                    keyDown[0] = false;
-                    player.setMoving(false);
+                {
+                    keyDown[0] = false; //if you only set the velocity here, it will freeze for a bit if you try to switch to D too quickly
+                    player.setMoving(false); //used to make the player stop animating
                 }
                 if (key == KeyEvent.VK_D)
                 {
@@ -110,22 +119,18 @@ public class KeyInput extends KeyAdapter
                  * you hold both left and right key 
                  * and release one the player continue moving to the key without stopping first
                 */
-                if (keyDown[0] && !keyDown[1])
+                if (keyDown[0] && !keyDown[1]) //Do this if our A is still pushed
                 {
                     player.setVelX(-5);
                 }
-                if (!keyDown[0] && keyDown[1])
+                if (!keyDown[0] && keyDown[1]) //If D is still pushed
                 {
                     player.setVelX(5);
-//                    player.setMoving(false);
                 }
-                //if not 'a' nor 'd' is keydown then we stop moving
-                if (!keyDown[0] && !keyDown[1])
+                if (!keyDown[0] && !keyDown[1]) //If neither are pushed
                 {
                     player.setVelX(0);
                 }
-                
-                
                 break;
             case MENU:
                 break;
@@ -135,17 +140,7 @@ public class KeyInput extends KeyAdapter
                 break;
             default:
                 break;
-        
         }
     }
-    
-    @Override
-    public void keyTyped(KeyEvent e)
-    {
-        super.keyTyped(e); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
-    
-    
+
 }

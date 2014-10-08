@@ -9,6 +9,7 @@
 package com.barnabot.nova.utils;
 
 import com.barnabot.nova.libs.Reference;
+import com.barnabot.nova.screens.LoadScreen;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
@@ -25,6 +26,7 @@ public class Fonts
     
     public Fonts(String filePath)
     {
+        LoadScreen.setMessage("Loading fonts from " + Reference.FONT_LOCATION);
         Fonts.fontPath = Reference.FONT_LOCATION + filePath;
         registerFont();
     }

@@ -8,6 +8,8 @@
 
 package com.barnabot.nova.utils;
 
+import com.barnabot.nova.libs.Reference;
+import com.barnabot.nova.screens.LoadScreen;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +25,7 @@ public class BufferedImageLoader
     
     public BufferedImage loadImage(String imagePath) throws IOException
     {
+        LoadScreen.setMessage("Loading textures from " + Reference.SPRITE_LOCATION);
         image = ImageIO.read(new File(imagePath));
         return image;
     }

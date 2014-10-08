@@ -49,29 +49,44 @@ public abstract class CoreObject
     //updates the game
     public abstract void tick();
     
-    public abstract void render(Graphics g);
+    public void render(Graphics g)
     {
+         /*Debugging collision*/
+        // Graphics2D g2d = (Graphics2D) g;
+        // g.setColor(Color.red);
+        // g2d.draw(getTopBounds());
+        // g2d.draw(getBottomBounds());
+        // g2d.draw(getRightBounds());
+        // g2d.draw(getLeftBounds());
     
     }
     
+    /**
+    * Gets the upper bounds of the object
+    * @return a rectangle representing the upper bounds
+    */
     public Rectangle getTopBounds()
     {
-        return new Rectangle((int)x ,(int)y ,width ,8);
+//        return new Rectangle((int)x ,(int)y ,width ,8);
+        return new Rectangle((int)x + 6, (int)y, width - 12, 12);
     }
     
     public Rectangle getBottomBounds()
     {
-        return new Rectangle((int)x ,(int)y + (height - 6) ,width ,12);
+//        return new Rectangle((int)x ,(int)y + (height - 6) ,width ,12);
+        return new Rectangle((int)x + 6, (int)y + (height - 6), width - 12, 6);
     }
     
     public Rectangle getRightBounds()
     {
-        return new Rectangle((int)x + (width - 6), (int)y, 6 ,height);
+//        return new Rectangle((int)x + (width - 6), (int)y, 6 ,height);
+        return new Rectangle((int)x + (width - 6), (int)y + 15, 6, height - 20);
     }
     
     public Rectangle getLeftBounds()
     {
-        return new Rectangle((int)x ,(int)y ,6 , height);
+//        return new Rectangle((int)x ,(int)y ,6 , height);
+        return new Rectangle((int)x, (int)y + 15, 6, height - 20);
     }
     
     public float getX()

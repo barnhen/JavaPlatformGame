@@ -9,6 +9,7 @@
 package com.barnabot.nova.utils;
 
 import com.barnabot.nova.libs.Reference;
+import com.barnabot.nova.screens.LoadScreen;
 import java.util.HashMap;
 import java.util.Map;
 import org.newdawn.slick.Music;
@@ -30,6 +31,7 @@ public class AudioPlayer
     
     public static void addMusic(String key, String path)
     {
+        LoadScreen.setMessage("Loading musics from " + Reference.SOUND_LOCATION);
         try
         {
             musicMap.put(key, new Music(Reference.SOUND_LOCATION + path));
@@ -44,6 +46,7 @@ public class AudioPlayer
     
     public static void addSound(String key, String path)
     {
+        LoadScreen.setMessage("Loading sounds from " + Reference.SOUND_LOCATION);
         try
         {
             soundMap.put(key, new Sound(Reference.SOUND_LOCATION + path));

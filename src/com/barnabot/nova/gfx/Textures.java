@@ -19,7 +19,10 @@ import java.awt.image.BufferedImage;
 public class Textures
 {
 //    private SpriteSheet sheetTest;
-    private SpriteSheet blockSheet;
+//    private SpriteSheet blockSheet;
+    private SpriteSheet rockSheet;
+    private SpriteSheet metalSheet;
+    private SpriteSheet liquidSheet;
     private SpriteSheet playerSheet;
     
     /*
@@ -30,13 +33,41 @@ public class Textures
     public BufferedImage playerRight[] = new BufferedImage[4];
     public BufferedImage playerLeft[] = new BufferedImage[4];
     
-    public BufferedImage blockMetal;
-    public BufferedImage blockStone;
+    /*
+    * Block textures
+    */
+//    public BufferedImage blockMetal;
+//    public BufferedImage blockStone;
     
+    public BufferedImage blockAsteroidCenter;
+    public BufferedImage blockAsteroidTopRight;
+    public BufferedImage blockAsteroidTopLeft;
+    public BufferedImage blockAsteroidTopSides;
+    public BufferedImage blockAsteroidTop;
+
+    public BufferedImage blockMetalGrip;
+    public BufferedImage blockMetalLined;
+    public BufferedImage blockMetalSheet;
+    public BufferedImage blockMetalRough;
+    public BufferedImage blockMetalSmooth;
+
+    /*
+    * Liquid textures
+    */
+    public BufferedImage lava;
+    public BufferedImage toxicWaste;
+    public BufferedImage water;
+    public BufferedImage coldWater;
+   /**
+   * Constructs the texture container
+   */
     public Textures()
     {
 //        sheetTest = new SpriteSheet(Images.spriteSheetBlocks, 32);
-        blockSheet = new SpriteSheet(Images.spriteSheetBlocks, 32);
+//        blockSheet = new SpriteSheet(Images.spriteSheetBlocks, 32);
+        rockSheet = new SpriteSheet(Images.spritesheetRockyBlocks, 32);
+        metalSheet = new SpriteSheet(Images.spritesheetMetalBlocks, 32);
+        liquidSheet = new SpriteSheet(Images.spritesheetLiquid, 32);
         playerSheet = new SpriteSheet(Images.spriteSheetPlayer, 32,70);
         
         initTextures();
@@ -45,9 +76,25 @@ public class Textures
     
     private void initTextures()
     {
-        blockStone = blockSheet.getSprite(1, 1);
-        blockMetal = blockSheet.getSprite(2, 1);
-        
+//        blockStone = blockSheet.getSprite(1, 1);
+//        blockMetal = blockSheet.getSprite(2, 1);
+//      
+        blockAsteroidCenter = rockSheet.getSprite(1, 1);
+        blockAsteroidTop = rockSheet.getSprite(2, 1);
+        blockAsteroidTopRight = rockSheet.getSprite(3, 1);
+        blockAsteroidTopLeft = rockSheet.getSprite(4, 1);
+        blockAsteroidTopSides = rockSheet.getSprite(1, 2);
+
+        blockMetalGrip = metalSheet.getSprite(1, 1);
+        blockMetalLined = metalSheet.getSprite(2, 1);
+        blockMetalSheet = metalSheet.getSprite(3, 1);
+        blockMetalRough = metalSheet.getSprite(4, 1);
+        blockMetalSmooth = metalSheet.getSprite(1, 2);
+
+        lava = liquidSheet.getSprite(1, 1);
+        toxicWaste = liquidSheet.getSprite(2, 1);
+        water = liquidSheet.getSprite(3, 1);
+        coldWater = liquidSheet.getSprite(4, 1);
         playerStandingRight = playerSheet.getSprite(12, 1);
         playerStandingLeft = playerSheet.getSprite(1, 1);
         
